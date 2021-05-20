@@ -1,4 +1,6 @@
-# Scripts for [xbar](https://github.com/matryer/xbar) <small>(the BitBar successor)</small>
+# Custom plugins for [xbar](https://github.com/matryer/xbar)
+
+Community plugins: <https://github.com/matryer/xbar-plugins>
 
 ## Installing
 
@@ -7,6 +9,9 @@
 - (Python) Make sure to install the packages used in the script
   - e.g. `pip3 install requests`
 
-## Community plugins
+---
 
-<https://github.com/matryer/xbar-plugins>
+## Utility
+
+- Display current german Corona stats (fetched directly from [RKI](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html))
+  - [rki.1h.py](rki.1h.py)
