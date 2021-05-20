@@ -9,7 +9,7 @@
 (function() {
   'use strict';
 
-  // credits: https://github.com/burkybang/Google-Meet-Auto-Disable-Camera/blob/master/content.js
+  // credits: https://github.com/burkybang/Google-Meet-Auto-Disable-Mic-Cam
   window.onload = () => {
       // NOTE: selector is using hotkey-description (aria-label) to identify buttons
       const disableCameraButton = document.querySelector('div[role="button"][aria-label$=" + e)"][data-is-muted="false"]');
