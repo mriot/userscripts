@@ -4,7 +4,7 @@ from time import localtime, strftime
 from datetime import datetime
 import requests
 
-pihole = "http://192.168.2.16/admin"
+pihole = "http://192.168.2.4/admin"
 page = requests.get(pihole + "/api.php")
 json = page.json()
 
@@ -17,5 +17,7 @@ date = datetime.utcfromtimestamp(json["gravity_last_updated"]["absolute"]).strft
 print("Gravity last updated:", date)
 print(f"---")
 print(f"Open Dashboard | href={pihole}")
+# print( "Refresh | shell=open | param1=/Applications/iTerm.app/")
+# print( "Refresh | shell=open | param1='/Applications/iTerm.app/ < pi'")
 print(f"---")
 print("Last update:", strftime("%Y-%m-%d %H:%M:%S", localtime()))
