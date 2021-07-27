@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         [CONFLUENCE] Company Happiness Overview
-// @version      0.3
+// @version      0.4
 // @description  Look up company happiness entries without filling it out
 // @author       mkremer
 // @match        https://confluence.apps.seibert-media.net/*
@@ -25,7 +25,7 @@
       // console.log(answersArray);
       return answersArray.reduce((acc, item) => {
         if (item.text.length > 0) {
-          acc.push(`<li>${item.text}</li>`);
+          acc.push(`<li>${item.text} <small style="white-space: nowrap;">– ${item.userName}</small></li>`);
         }
         return acc;
       }, []).join("");
