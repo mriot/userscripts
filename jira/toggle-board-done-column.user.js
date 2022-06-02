@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         [JIRA] Toggle button for 'done'-column
-// @version      1.0
-// @last-updated 2019-12-19
+// @version      1.1
 // @description  Adds a button for toggling the visiblity of the done-column
 // @author       mkremer
 // @match        https://jira.apps.seibert-media.net/secure/RapidBoard.jspa?rapidView=*
@@ -10,7 +9,20 @@
 
 (function () {
   const $ = window.jQuery;
-  let state = JSON.parse(localStorage.getItem("done-column-hidden"));// using JSON.parse to convert string to boolean
+  let state = JSON.parse(localStorage.getItem("done-column-hidden")); // using JSON.parse to convert string to boolean
+
+  // general styling
+  $(`
+    <style>
+      body.ghx-header-compact #ghx-controls-work .toggle-done-column {
+        display: block !important;
+        position: absolute;
+        right: 50px;
+        bottom: 10px;
+      }
+    </style>
+  `).appendTo("head");
+
   const setStyleRules = display => {
     $("#done-column-toggle-styles").remove();
     $(`
@@ -20,7 +32,7 @@
         }
       </style>
     `).appendTo("head");
-  }
+  };
 
   // wait for board to be "ready"
   let interval = setInterval(() => {
@@ -70,9 +82,10 @@
           .addClass("aui-icon-small")
           .addClass("aui-iconfont-page-layout-toggle")
         .end()
-        .insertBefore("#ghx-modes-tools > #ghx-view-presentation")
+        .insertBefore("#ghx-modes-tools > #ghx-view-presentation") // when header is visible
         .clone()
-        .appendTo("#ghx-controls-work");
+        .appendTo("#ghx-controls-work") // when header is hidden
+        .hide()
     }
 
     // apply event listener to all toggle-buttons
