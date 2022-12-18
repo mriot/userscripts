@@ -6,4 +6,4 @@ They can be used with a userscript manager like [Tampermonkey](https://www.tampe
 
 ## Note
 
-Some scripts require you to modify them before you can use them. E.g. inserting the url of your jira instance.
+📢 Some scripts require you to modify them before you can use them. E.g. inserting the url of your jira instance.
