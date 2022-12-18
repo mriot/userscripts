@@ -1,10 +1,10 @@
 # Userscripts for WordPress
 
-**Note**: Some of these scripts are aimed at WordPress systems which use the [Avada Theme](https://avada.theme-fusion.com/)
+**Note**: Some of these scripts are made for WordPress systems which use the [Avada Theme](https://avada.theme-fusion.com/)
 
 ---
 
-## Infos for scripts that require explanation
+## Note
 
 ### [wordpress-fusion-easy-copy.user.js](wordpress-fusion-easy-copy.user.js)
 

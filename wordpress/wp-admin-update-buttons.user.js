@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         [WP] Keep page-update buttons in viewport
-// @version      0.1
-// @author       mkremer
+// @version      1.0
+// @author       https://github.com/mriot
 // @match        http*://*/wp-admin/*
 // @grant        none
 // ==/UserScript==
 
 (function () {
-  'use strict';
+  "use strict";
 
   (function ($) {
     $(`
@@ -18,5 +18,4 @@
       </style>
     `).appendTo("head");
   })(window.jQuery);
-
 })();

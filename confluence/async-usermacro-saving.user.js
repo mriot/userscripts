@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         [CONFLUENCE] Async user macro saving
-// @version      0.4
+// @version      1.0.0
 // @description  Asynchronously save user macros without reloading the site
-// @author       mkremer
+// @author       https://github.com/mriot
 // @match        https://*/admin/updateusermacro-start.action?macro=*
 // @grant        none
 // ==/UserScript==
@@ -15,28 +15,30 @@
   const toastConfig = {
     fadeout: true,
     delay: 2000,
-    title: "Macro saved!"
+    title: "Macro saved!",
   };
 
-  document.body.addEventListener("keydown", event => {
+  document.body.addEventListener("keydown", (event) => {
     if ((event.metaKey || event.ctrlKey) && event.key === "s") {
       event.preventDefault();
       $("#confirm").trigger("click");
     }
   });
 
-  $("#confirm").on("click", event => {
+  $("#confirm").on("click", (event) => {
     event.preventDefault();
-    $("#confirm").before(`<aui-spinner size="small" class="usermacro-loading-icon" style="display: inline-block; margin-right: 10px;"></aui-spinner>`);
-    
+    $("#confirm").before(
+      `<aui-spinner size="small" class="usermacro-loading-icon" style="display: inline-block; margin-right: 10px;"></aui-spinner>`
+    );
+
     (async () => {
       const response = await fetch(`${window.location.origin}/admin/updateusermacro.action`, {
-        "headers": {
+        headers: {
           "cache-control": "max-age=0",
           "content-type": "application/x-www-form-urlencoded",
         },
-        "method": "POST",
-        "body": $("#user-macro-form").serialize()
+        method: "POST",
+        body: $("#user-macro-form").serialize(),
       });
 
       // console.log(response);
@@ -46,7 +48,7 @@
       if (!response.ok) {
         alert(`Could not save macro!\nCode: ${response.status}`);
         return;
-      };
+      }
 
       if (new URLSearchParams(response.url).get("permissionViolation") !== null) {
         alert("It seems you're not logged in!\nYou must re-authenticate in Confluence.");

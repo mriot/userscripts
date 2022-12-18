@@ -2,14 +2,14 @@
 // @name         [JIRA] Toggle button for 'done'-column
 // @version      1.1
 // @description  Adds a button for toggling the visiblity of the done-column
-// @author       mkremer
-// @match        https://jira.apps.seibert-media.net/secure/RapidBoard.jspa?rapidView=*
+// @author       https://github.com/mriot
+// @match        YOUR_JIRA_URL_HERE/RapidBoard.jspa?rapidView=*
 // @grant        none
 // ==/UserScript==
 
 (function () {
   const $ = window.jQuery;
-  let state = JSON.parse(localStorage.getItem("done-column-hidden")); // using JSON.parse to convert string to boolean
+  let state = JSON.parse(localStorage.getItem("done-column-hidden"));
 
   // general styling
   $(`
@@ -23,7 +23,7 @@
     </style>
   `).appendTo("head");
 
-  const setStyleRules = display => {
+  const setStyleRules = (display) => {
     $("#done-column-toggle-styles").remove();
     $(`
       <style id="done-column-toggle-styles">
@@ -53,18 +53,18 @@
       const observerConfig = {
         attributes: false,
         childList: true,
-        characterData: false
+        characterData: false,
       };
 
-      const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
           console.log(mutation);
           if (state) {
             $("#ghx-column-headers li:last-child").hide();
             $(".ghx-columns li:last-child").hide();
             setStyleRules("none");
           }
-        })
+        });
       });
 
       // run watcher
@@ -77,15 +77,15 @@
         .removeClass("js-compact-toggle")
         .addClass("toggle-done-column")
         .find("span.aui-icon")
-          .removeClass()
-          .addClass("aui-icon")
-          .addClass("aui-icon-small")
-          .addClass("aui-iconfont-page-layout-toggle")
+        .removeClass()
+        .addClass("aui-icon")
+        .addClass("aui-icon-small")
+        .addClass("aui-iconfont-page-layout-toggle")
         .end()
         .insertBefore("#ghx-modes-tools > #ghx-view-presentation") // when header is visible
         .clone()
         .appendTo("#ghx-controls-work") // when header is hidden
-        .hide()
+        .hide();
     }
 
     // apply event listener to all toggle-buttons
@@ -102,5 +102,5 @@
       // set css rules for drag 'n' drop overlay
       setStyleRules(isHidden ? "none" : "table-cell");
     });
-  }, 100)
+  }, 100);
 })();
