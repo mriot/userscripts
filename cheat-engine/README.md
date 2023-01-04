@@ -19,3 +19,8 @@ Currently, there is only one custom template: an AOB template. See below.
 
 Place the Lua file in the "autorun" directory within the Cheat Engine installation directory, and then restart Cheat Engine.  
 > My autorun folder is located here: `C:\Program Files\Cheat Engine 7.4\autorun`
+
+## Plugin credits
+
+mgr.inz.Player for the plugin code (<https://fearlessrevolution.com/viewtopic.php?t=12899>)  
+I added the %dateCreated% template string, fixed a problem with the menu code and cleaned up a bit.
