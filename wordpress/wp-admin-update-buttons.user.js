@@ -1,21 +1,25 @@
 // ==UserScript==
-// @name         [WP] Keep page-update buttons in viewport
-// @version      1.0
-// @author       https://github.com/mriot
+// @name         Keep WordPress' page-update buttons in viewport
+// @description  Keep page-update buttons in viewport on WordPress admin pages
+// @version      1.1
+// @author       mriot
+// @namespace    https://github.com/mriot/userscripts
+// @homepageURL  https://github.com/mriot/userscripts
+// @supportURL   https://github.com/mriot/userscripts/issues
+
 // @match        http*://*/wp-admin/*
-// @grant        none
 // ==/UserScript==
 
 (function () {
-  "use strict";
+    "use strict";
 
-  (function ($) {
-    $(`
+    (function ($) {
+        $(`
       <style>
         body.wp-admin .fusion-builder-update-buttons {
           bottom: 0 !important;
         }
       </style>
     `).appendTo("head");
-  })(window.jQuery);
+    })(window.jQuery);
 })();
