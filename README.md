@@ -42,7 +42,7 @@ const nodeReady = (selector, callback, container = "body", keepWatching = false)
 nodeReady("img", () => console.log("node added"), "#container", true);
 
 // watching for multiple nodes
-["img", "div"].map((selector) => {
+["img", "div"].forEach((selector) => {
     nodeReady(selector, () => console.log(`${selector} added`), "#container");
 });
 ```
