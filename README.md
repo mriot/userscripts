@@ -18,67 +18,65 @@ This should automatically open the installation page of your userscript manager.
 
 ## nodeReady()
 
-### Callback version
-
-Executes the callback function if a node matching the selector is added to the container.  
-Optionally, you can keep watching for more nodes to be added.
-```javascript
-const nodeReady = (selector, callback, container = "body", keepWatching = false) => {
-    new MutationObserver((mutations, observer) => {
-        mutations.forEach((mutation) => {
-            if (mutation.addedNodes.length && mutation.addedNodes[0].matches(selector)) {
-                callback();
-                keepWatching || observer.disconnect();
-            }
-        });
-    }).observe(document.querySelector(container), { childList: true, subtree: true });
-};
-```
-
-#### Usage
+This snippet waits for a node to be ready in the DOM before executing a callback or resolving a promise.
 
 ```javascript
-// keeping the observer running to watch for more nodes
-nodeReady("img", () => console.log("node added"), "#container", true);
-
-// watching for multiple nodes
-["img", "div"].forEach((selector) => {
-    nodeReady(selector, () => console.log(`${selector} added`), "#container");
-});
-```
-
-### Promise version
-
-Returns a promise that resolves if a node matching the selector is added to the container.
-```javascript
-const nodeReady = (selector, container = "body") => {
-    return new Promise((resolve) => {
+/**
+ * Wait for a node to be ready in the DOM.
+ * Can be used with a callback or as a promise.
+ *
+ * @param {string} selector - The CSS selector to watch for.
+ * @param {string} container - The CSS selector of the container to watch.
+ * @param {function} [callback] - The callback to execute when the node is ready. If not provided, a promise is returned.
+ * @param {boolean} [keepWatching=false] - Whether to keep watching for new nodes. Can only be used with a callback.
+ */
+const nodeReady = (selector, container, callback, keepWatching = false) => {
+    const watcher = (resolve) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            callback ? callback(element) : resolve(element);
+            return;
+        }
         new MutationObserver((mutations, observer) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length && mutation.addedNodes[0].matches(selector)) {
-                    resolve();
-                    observer.disconnect();
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.matches(selector)) {
+                        callback ? callback(node) : resolve(node);
+                        if (!keepWatching) observer.disconnect();
+                        return;
+                    }
                 }
-            });
+            }
         }).observe(document.querySelector(container), { childList: true, subtree: true });
-    });
+    };
+    return callback ? watcher() : new Promise(watcher);
 };
+
 ```
+
+See [node-ready.js](node-ready.js).
 
 #### Usage
 
 ```javascript
-// using async/await and without a container selector (default is body)
+// callback mode & keeps watching for new nodes
+nodeReady("img", "body", (node) => {
+  console.log("hello from callback", node)
+}, true);
+
+// promise mode
+nodeReady("img", "body").then((node) => {
+  console.log("hello from promise", node)
+});
+
+// prmoise mode with async/await
 (async () => {
-    await nodeReady("img");
-    console.log("node added");
+  const node = await nodeReady("img", "body");
+  console.log("hello from async/await", node);
 })();
 
-// using .then
-nodeReady("img", "#container").then(() => console.log("node added"));
-
 // watching for multiple nodes
-["img", "div"].forEach((selector) => {
-    nodeReady(selector, "#container").then(() => console.log(`${selector} added`));
+["img.icon", "div"].forEach((selector) => {
+    // nodeReady("selector", ...
 });
 ```
