@@ -1,25 +1,30 @@
-// Returns a promise that resolves if a node matching the selector is added to the container.
-const nodeReady = (selector, container = "body") => {
-    return new Promise((resolve) => {
+/**
+ * Wait for a node to be ready in the DOM.
+ * Can be used with a callback or as a promise.
+ *
+ * @param {string} selector - The CSS selector to watch for.
+ * @param {string} container - The CSS selector of the container to watch.
+ * @param {function} [callback] - The callback to execute when the node is ready. If not provided, a promise is returned.
+ * @param {boolean} [keepWatching=false] - Whether to keep watching for new nodes. Can only be used with a callback.
+ */
+const nodeReady = (selector, container, callback, keepWatching = false) => {
+    const watcher = (resolve) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            callback ? callback(element) : resolve(element);
+            return;
+        }
         new MutationObserver((mutations, observer) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length && mutation.addedNodes[0].matches(selector)) {
-                    resolve();
-                    observer.disconnect();
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.matches(selector)) {
+                        callback ? callback(node) : resolve(node);
+                        if (!keepWatching) observer.disconnect();
+                        return;
+                    }
                 }
-            });
-        }).observe(document.querySelector(container), { childList: true, subtree: true });
-    });
-};
-
-// Executes the callback function if a node matching the selector is added to the container.
-const nodeReadyCB = (selector, callback, container = "body", keepWatching = false) => {
-    new MutationObserver((mutations, observer) => {
-        mutations.forEach((mutation) => {
-            if (mutation.addedNodes.length && mutation.addedNodes[0].matches(selector)) {
-                callback();
-                keepWatching || observer.disconnect();
             }
-        });
-    }).observe(document.querySelector(container), { childList: true, subtree: true });
+        }).observe(document.querySelector(container), { childList: true, subtree: true });
+    };
+    return callback ? watcher() : new Promise(watcher);
 };
