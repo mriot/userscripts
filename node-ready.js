@@ -16,7 +16,7 @@ const nodeReady = (targetSelector, containerSelector, callback, keepWatching = f
         new MutationObserver((mutations, observer) => {
             for (const mutation of mutations) {
                 for (const node of mutation.addedNodes) {
-                    if (node.matches(targetSelector)) {
+                    if (node.nodeType === Node.ELEMENT_NODE && node.matches(targetSelector)) {
                         callback ? callback(node) : resolve(node);
                         if (!keepWatching) observer.disconnect();
                         return;
