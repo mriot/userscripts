@@ -10,10 +10,6 @@ Scripts located within the [cheat-engine](cheat-engine/) folder are intended to 
 On GitHub, navigate to a script and click on it. Then press the <kbd>raw</kbd> button.  
 This should automatically open the installation page of your userscript manager.
 
-> [!IMPORTANT]
-> Some scripts require you to modify them slightly before you can use them.  
-> E.g. inserting the url of your jira instance.
-
 ---
 
 ## nodeReady - utility
@@ -25,7 +21,7 @@ A utility function that waits for a node to be ready in the DOM and either execu
 #### Usage
 
 ```javascript
-// callback mode & keeps watching for new nodes
+// callback mode & keeps watching for images to be added
 nodeReady("img", "body", (node) => {
   console.log("hello from callback", node)
 }, true);
